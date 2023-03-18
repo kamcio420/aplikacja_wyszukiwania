@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">aplikacja_wyszukiwania</string>
+    <string name="_0">0</string>
+    <string name="uruchom">URUCHOM</string>
+    <string name="wrzozec">wrzozec</string>
+    <string name="ilo_znak_w">ilość znaków</string>
+    <string name="_0_">0</string>
 </resources>
