@@ -12,16 +12,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.uruchomButton).setOnClickListener {
-            val iloscInput = findViewById<TextInputEditText>(R.id.iloscZnakowInput)
-            val wzorzecInput = findViewById<TextInputEditText>(R.id.wzorzecInput)
+        //DECLARATIONS
+        val iloscInput = findViewById<TextInputEditText>(R.id.iloscZnakowInput).text.toString()
+        val wzorzecInput = findViewById<TextInputEditText>(R.id.wzorzecInput).text.toString()
+        val bruteForceOutput = findViewById<TextView>(R.id.bruteForceOutput)
+        val kmpOutput = findViewById<TextView>(R.id.kmpOutput)
+        val bmOutput = findViewById<TextView>(R.id.bmOutput)
+        val rkOutput = findViewById<TextView>(R.id.rkOutput)
 
-            if(parseInt(iloscInput.toString()) > 0 && wzorzecInput.length() >= 1)
+        findViewById<Button>(R.id.uruchomButton).setOnClickListener {
+
+            if(iloscInput.isNotEmpty() && wzorzecInput!="" )
             {
-                val bruteForceOutput = findViewById<TextView>(R.id.bruteForceOutput)
-                val kmpOutput = findViewById<TextView>(R.id.kmpOutput)
-                val bmOutput = findViewById<TextView>(R.id.bmOutput)
-                val rkOutput = findViewById<TextView>(R.id.rkOutput)
+                findViewById<TextView>(R.id.errorText).text = "git"
             }
             else
             {
