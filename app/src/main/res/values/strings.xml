@@ -5,4 +5,16 @@
     <string name="wrzozec">wrzozec</string>
     <string name="ilo_znak_w">ilość znaków</string>
     <string name="_0_">0</string>
+    <string name="ms">ms</string>
+    <string name="ms2">ms</string>
+    <string name="ms3">ms</string>
+    <string name="ms4">ms</string>
+    <string name="_01">0</string>
+    <string name="_02">0</string>
+    <string name="_03">0</string>
+    <string name="_04">0</string>
+    <string name="kmp">KMP</string>
+    <string name="bm">BM</string>
+    <string name="brute_force">BRUTE FORCE</string>
+    <string name="rk">RK</string>
 </resources>
