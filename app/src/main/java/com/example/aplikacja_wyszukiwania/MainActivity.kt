@@ -1,5 +1,6 @@
 package com.example.aplikacja_wyszukiwania
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -9,11 +10,14 @@ import java.lang.Integer.parseInt
 import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //DECLARATIONS
+        val errorOutput = findViewById<TextView>(R.id.errorText)
+        val findOutput = findViewById<TextView>(R.id.findOutput)
         val bruteForceOutput = findViewById<TextView>(R.id.bruteForceOutput)
         val kmpOutput = findViewById<TextView>(R.id.kmpOutput)
         val bmOutput = findViewById<TextView>(R.id.bmOutput)
@@ -30,41 +34,57 @@ class MainActivity : AppCompatActivity() {
         }
 
         //BRUTE FORCE ALGORITHM
-        fun bruteForce(str: CharArray, substr: CharArray): Long {
-            val insertionTime = measureTimeMillis {
-                if (substr.size > str.size) return 0
-
-                var occurrences = 0
-
-                for (cursor1 in 0 until str.size) {
-                    var matchCount = 0
-                    for (cursor2 in 0 until substr.size) {
-                        if (str[cursor1 + cursor2] == substr[cursor2]) matchCount++
+        fun bruteForce(str: CharArray, substr: CharArray): Int {
+                class StateMachine(val pattern: CharArray) {
+                    var cursor = 0
+                    fun add(character: Char) {
+                        if (pattern[cursor] == character) cursor++
+                        else cursor = 0
                     }
-
-                    if (matchCount == substr.size) occurrences++
+                    fun isMatch() = cursor == pattern.size
+                    fun reset() {cursor = 0}
                 }
-            }
-            return insertionTime
+
+                val stateMachine = StateMachine(substr)
+                var numberOfOccurrences = 0
+
+                for (cursor in 0 until str.size) {
+                    stateMachine.add(str[cursor])
+                    if (stateMachine.isMatch()) {
+                        stateMachine.reset()
+                        numberOfOccurrences++
+                    }
+                }
+
+                return numberOfOccurrences
         }
 
         findViewById<Button>(R.id.uruchomButton).setOnClickListener {
 
-            val iloscInput = findViewById<TextInputEditText>(R.id.iloscZnakowInput).text.toString()
+            var iloscInput = findViewById<TextInputEditText>(R.id.iloscZnakowInput).text.toString()
             val wzorzecInput = findViewById<TextInputEditText>(R.id.wzorzecInput).text.toString()
-            var czasWynik = 0.toLong()
+            val bfOutput: Int
 
-            if(iloscInput.isNotEmpty() && wzorzecInput!="" )
+            if(iloscInput.isNotEmpty() && wzorzecInput!="")
             {
-                findViewById<TextView>(R.id.errorText).text = ""
-                randomLetters(parseInt(iloscInput))
-                czasWynik = bruteForce(randomString.toCharArray(), wzorzecInput.toCharArray())
-                findViewById<TextView>(R.id.errorText).text = ""
-                bruteForceOutput.text = czasWynik.toString()
+                errorOutput.text = ""
+                if(parseInt(iloscInput) <= 10000) {
+                    errorOutput.text = ""
+                    randomLetters(parseInt(iloscInput))
+                    val bruteForceTime = measureTimeMillis {
+                        bfOutput = bruteForce(randomString.toCharArray(), wzorzecInput.toCharArray())
+                    }
+                    bruteForceOutput.text = bruteForceTime.toString()
+                    findOutput.text = bfOutput.toString()
+                }
+                else
+                {
+                    errorOutput.text = "Ilość znaków nie może być większa od 10000!"
+                }
             }
             else
             {
-                findViewById<TextView>(R.id.errorText).text = "Wprowadź poprawne dane!"
+                errorOutput.text = "Wprowadź poprawne dane!"
             }
         }
     }
