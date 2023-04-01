@@ -17,4 +17,7 @@
     <string name="bm">BM</string>
     <string name="brute_force">BRUTE FORCE</string>
     <string name="rk">RK</string>
+    <string name="first_position">First position:</string>
+    <string name="occurrences">Occurrences:</string>
+    <string name="bf">BF</string>
 </resources>
